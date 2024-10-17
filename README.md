@@ -27,7 +27,7 @@ Os dados necessários para a análise podem ser encontrados nos seguintes arquiv
 Clone este repositório:
 
 ```bash
-git clone https://github.com/seuusuario/Campeonato-Brasileiro-Data-Analysis.git
+git clone https://github.com/EyzRyder/Campeonato-Brasileiro-Data-Analysis.git
 ```
 
 Navegue até o diretório do projeto:
