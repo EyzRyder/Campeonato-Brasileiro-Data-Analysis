@@ -1,13 +1,17 @@
+import java.io.IOException;
+import java.util.Map;
+import java.util.NoSuchElementException;
 import java.util.Scanner;
+import java.util.stream.Collectors;
 
 public class Main {
-    public static void main(String[] args) {
+    public static void main(String[] args) throws IOException {
         Scanner scanner = new Scanner(System.in);
         Integer escolha = null;
         String menuPrompt = "";
+        DataHelper dataHelper = new DataHelper();
 
-        do {
-            menuPrompt += """
+        menuPrompt += """
                     ╔═══════════════════════════════════════════════════════════════╗
                     ║                       MENU PRINCIPAL                          ║
                     ╠═══════════════════════════════════════════════════════════════╣
@@ -25,11 +29,13 @@ public class Main {
                     ║                  Selecione a tarefa desejada...               ║
                     ╚═══════════════════════════════════════════════════════════════╝
                     """;
+        do {
+
+            System.out.println(menuPrompt);
 
             escolha = null;
             while (escolha == null) {
                 try {
-                    System.out.println(menuPrompt);
                     System.out.print(">> Input: ");
                     escolha = Integer.parseInt(scanner.nextLine());
                     System.out.println();
@@ -41,11 +47,36 @@ public class Main {
             }
 
             switch (escolha) {
-                case 1:
-                    System.out.println("Opção inválida.");
-                break;
+                case 6:
+                    Map<String, Long> cartaoAmarelaDosJogadores = dataHelper
+                            .cartoes
+                            .stream()
+                            .filter(cartao -> cartao.cartao.equalsIgnoreCase("Amarelo"))
+                            .collect(Collectors.groupingBy(cartao -> cartao.num_camisa, Collectors.counting()));
+                    Map.Entry<String, Long> jogadorComMaisCartaoAmarela = cartaoAmarelaDosJogadores
+                            .entrySet()
+                            .stream()
+                            .max(Map.Entry.comparingByValue()).orElseThrow(() -> new NoSuchElementException("Lista de cartões está vazia"));
+
+                    System.out.println("Jogador com mais cartões Amarelas: Camisa " + jogadorComMaisCartaoAmarela.getKey() +
+                            " com " + jogadorComMaisCartaoAmarela.getValue() + " cartões amarelos.");
+                    break;
+                case 7:
+                    Map<String, Long> cartaoVermelhoDosJogadores = dataHelper
+                            .cartoes
+                            .stream()
+                            .filter(cartao -> cartao.cartao.equalsIgnoreCase("Vermelho"))
+                            .collect(Collectors.groupingBy(cartao -> cartao.num_camisa, Collectors.counting()));
+                    Map.Entry<String, Long> jogadorComMaisCartaoVermelho = cartaoVermelhoDosJogadores
+                            .entrySet()
+                            .stream()
+                            .max(Map.Entry.comparingByValue()).orElseThrow(() -> new NoSuchElementException("Lista de cartões está vazia"));
+
+                    System.out.println("Jogador com mais cartões Vermelhos: Camisa " + jogadorComMaisCartaoVermelho.getKey() +
+                            " com " + jogadorComMaisCartaoVermelho.getValue() + " cartões vermelhos.");
+                    break;
                 case 0:
-                    System.out.println("Opção inválida.");
+                    System.out.println("Saindo ...");
                     break;
                 default:
                     System.out.println("Opção inválida.");
