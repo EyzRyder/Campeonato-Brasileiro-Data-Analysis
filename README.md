@@ -9,8 +9,8 @@ O objetivo deste projeto é extrair e apresentar informações relevantes sobre 
 - [ ] O jogador que mais fez gols;
 - [ ] O jogador que mais fez gols de pênaltis;
 - [ ] O jogador que mais fez gols contra;
-- [ ] O jogador que mais recebeu cartões amarelos;
-- [ ] O jogador que mais recebeu cartões vermelhos;
+- [x] O jogador que mais recebeu cartões amarelos;
+- [x] O jogador que mais recebeu cartões vermelhos;
 - [ ] O placar da partida com o maior número de gols;
 
 
