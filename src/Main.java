@@ -1,6 +1,4 @@
-import java.util.Map;
-import java.util.NoSuchElementException;
-import java.util.Scanner;
+import java.util.*;
 import java.util.stream.Collectors;
 
 public class Main {
@@ -54,10 +52,12 @@ public class Main {
     private static void processarEscolha(int escolha, DataHelper dataHelper) {
         switch (escolha) {
             case 1 -> exibirTimeComMaisVitorias2008(dataHelper);
-            case 3 -> exibirJogadorComMaisGols(dataHelper);
+            case 2 -> exibirEstadoComMenorJogos(dataHelper);
             case 4 -> exibirJogadorComMaisGolsPenalti(dataHelper);
+            case 5 -> exibirJogadoresMaisGolsContra(dataHelper);
             case 6 -> exibirJogadorComMaisCartoes(dataHelper, "Amarelo");
             case 7 -> exibirJogadorComMaisCartoes(dataHelper, "Vermelho");
+            case 8 -> exibirPlacarComMaiorNumeroDeGols(dataHelper);
             case 0 -> System.out.println("Encerrando...");
             default -> System.out.println("Opção inválida.");
         }
@@ -144,4 +144,81 @@ public class Main {
         System.out.printf("O time que mais venceu em 2008: %s com %d vitórias.%n",
                 timeMaisVitorias.getKey(), timeMaisVitorias.getValue());
     }
+
+    private static void exibirEstadoComMenorJogos(DataHelper dataHelper) {
+        Map<String, Long> jogosPorEstado = dataHelper.getBrasileiraoes()
+                .stream()
+                .filter(jogo -> jogo.data != null && jogo.data.matches("\\d{2}/\\d{2}/(200[3-9]|201\\d|202[0-2])"))
+                .flatMap(jogo -> {
+                    List<String> estados = new ArrayList<>();
+                    if (jogo.estadoMandante != null) estados.add(jogo.estadoMandante);
+                    if (jogo.estadoVisitante != null) estados.add(jogo.estadoVisitante);
+                    return estados.stream();
+                })
+                .collect(Collectors.groupingBy(estado -> estado, Collectors.counting()));
+
+        if (jogosPorEstado.isEmpty()) {
+            System.out.println("Nenhum jogo registrado entre 2003 e 2022.");
+            return;
+        }
+
+        Map.Entry<String, Long> estadoMenosJogos = jogosPorEstado.entrySet()
+                .stream()
+                .min(Map.Entry.comparingByValue())
+                .orElseThrow(() -> new NoSuchElementException("Nenhum estado encontrado."));
+
+        System.out.printf("O estado com o menor número de jogos entre 2003 e 2022: %s com %d jogos.%n",
+                estadoMenosJogos.getKey(), estadoMenosJogos.getValue());
+    }
+
+    private static void exibirJogadoresMaisGolsContra(DataHelper dataHelper) {
+        Map<String, Long> golsContra = dataHelper.getGols()
+                .stream()
+                .filter(gol -> gol.tipo_de_gol != null && gol.tipo_de_gol.equalsIgnoreCase("Gol Contra"))
+                .collect(Collectors.groupingBy(gol -> gol.atleta, Collectors.counting()));
+
+        if (golsContra.isEmpty()) {
+            System.out.println("Nenhum gol contra registrado.");
+            return;
+        }
+
+        Map.Entry<String, Long> jogadorMaisGolsContra = golsContra.entrySet()
+                .stream()
+                .max(Map.Entry.comparingByValue())
+                .orElseThrow(() -> new NoSuchElementException("Nenhum jogador encontrado."));
+
+        System.out.printf("O jogador com mais gols contra: %s com %d gols contra.%n",
+                jogadorMaisGolsContra.getKey(), jogadorMaisGolsContra.getValue());
+    }
+
+    private static void exibirPlacarComMaiorNumeroDeGols(DataHelper dataHelper) {
+        Optional<AbstractMap.SimpleEntry<Brasileirao, Integer>> partidaComMaisGols = dataHelper.getBrasileiraoes()
+                .stream()
+                .filter(jogo -> jogo.mandantePlacar != null && jogo.visitantePlacar != null)
+                .map(jogo -> {
+                    try {
+                        int golsMandante = Integer.parseInt(jogo.mandantePlacar);
+                        int golsVisitante = Integer.parseInt(jogo.visitantePlacar);
+                        int totalGols = golsMandante + golsVisitante;
+                        return new AbstractMap.SimpleEntry<>(jogo, totalGols);
+                    } catch (NumberFormatException e) {
+                        return null;
+                    }
+                })
+                .filter(Objects::nonNull)
+                .max(Comparator.comparingLong(Map.Entry::getValue));
+
+        if (partidaComMaisGols.isEmpty()) {
+            System.out.println("Nenhuma partida com gols registrados.");
+            return;
+        }
+
+        AbstractMap.SimpleEntry<Brasileirao, Integer> partida = partidaComMaisGols.get();
+        int golsMandante = Integer.parseInt(partida.getKey().mandantePlacar);
+        int golsVisitante = Integer.parseInt(partida.getKey().visitantePlacar);
+        System.out.printf("A partida com o maior número de gols foi: %s (%d x %d).%n",
+                partida.getKey().arena, golsMandante, golsVisitante);
+    }
+
+
 }
