@@ -53,12 +53,16 @@ public class Main {
 
     private static void processarEscolha(int escolha, DataHelper dataHelper) {
         switch (escolha) {
+            case 1 -> exibirTimeComMaisVitorias2008(dataHelper);
+            case 3 -> exibirJogadorComMaisGols(dataHelper);
+            case 4 -> exibirJogadorComMaisGolsPenalti(dataHelper);
             case 6 -> exibirJogadorComMaisCartoes(dataHelper, "Amarelo");
             case 7 -> exibirJogadorComMaisCartoes(dataHelper, "Vermelho");
             case 0 -> System.out.println("Encerrando...");
             default -> System.out.println("Opção inválida.");
         }
     }
+
 
     private static void exibirJogadorComMaisCartoes(DataHelper dataHelper, String tipoCartao) {
         try {
@@ -79,5 +83,65 @@ public class Main {
                 .stream()
                 .max(Map.Entry.comparingByValue())
                 .orElseThrow(() -> new NoSuchElementException("Lista de cartões está vazia."));
+    }
+
+    private static void exibirJogadorComMaisGols(DataHelper dataHelper) {
+        Map<String, Long> golsPorJogador = dataHelper.getGols()
+                .stream()
+                .collect(Collectors.groupingBy(g -> g.atleta, Collectors.counting()));
+
+        if (golsPorJogador.isEmpty()) {
+            System.out.println("Nenhum gol registrado.");
+        }
+
+        Map.Entry<String, Long> jogadorMaisGols = golsPorJogador.entrySet()
+                .stream()
+                .max(Map.Entry.comparingByValue())
+                .orElseThrow(() -> new NoSuchElementException("Nenhum jogador encontrado."));
+
+        System.out.printf("O jogador que mais fez gols: %s com %d gols.%n",
+                jogadorMaisGols.getKey(), jogadorMaisGols.getValue());
+    }
+
+    private static void exibirJogadorComMaisGolsPenalti(DataHelper dataHelper) {
+        Map<String, Long> golsDePenaltiPorJogador = dataHelper.getGols()
+                .stream()
+                .filter(gol -> gol.tipo_de_gol != null && gol.tipo_de_gol.equalsIgnoreCase("penalty"))
+                .collect(Collectors.groupingBy(g -> g.atleta, Collectors.counting()));
+
+        if (golsDePenaltiPorJogador.isEmpty()) {
+            System.out.println("Nenhum gol de pênalti registrado.");
+            return;
+        }
+
+
+        Map.Entry<String, Long> jogadorMaisGolsPenalti = golsDePenaltiPorJogador.entrySet()
+                .stream()
+                .max(Map.Entry.comparingByValue())
+                .orElseThrow(() -> new NoSuchElementException("Nenhum jogador encontrado."));
+
+        System.out.printf("O jogador que mais fez gols de pênalti: %s com %d gols de pênalti.%n",
+                jogadorMaisGolsPenalti.getKey(), jogadorMaisGolsPenalti.getValue());
+    }
+
+    private static void exibirTimeComMaisVitorias2008(DataHelper dataHelper) {
+        Map<String, Long> vitoriasPorTime = dataHelper.getBrasileiraoes()
+                .stream()
+                .filter(jogo -> jogo.data != null && jogo.data.matches("\\d{2}/\\d{2}/2008"))
+                .filter(jogo -> jogo.vencedor != null && !jogo.vencedor.equals("-"))
+                .collect(Collectors.groupingBy(jogo -> jogo.vencedor, Collectors.counting()));
+
+        if (vitoriasPorTime.isEmpty()) {
+            System.out.println("Nenhuma vitória registrada em 2008.");
+            return;
+        }
+
+        Map.Entry<String, Long> timeMaisVitorias = vitoriasPorTime.entrySet()
+                .stream()
+                .max(Map.Entry.comparingByValue())
+                .orElseThrow(() -> new NoSuchElementException("Nenhum time encontrado."));
+
+        System.out.printf("O time que mais venceu em 2008: %s com %d vitórias.%n",
+                timeMaisVitorias.getKey(), timeMaisVitorias.getValue());
     }
 }
