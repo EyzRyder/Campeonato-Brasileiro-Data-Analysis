@@ -65,7 +65,7 @@ public class Main {
     private static void exibirJogadorComMaisCartoes(DataHelper dataHelper, String tipoCartao) {
         try {
             Map.Entry<String, Long> jogador = encontrarJogadorComMaisCartoes(dataHelper, tipoCartao);
-            System.out.printf("Jogador com mais cartões %s: Camisa %s com %d cartões.%n",
+            System.out.printf("Jogador com mais cartões %s: Jogador %s com %d cartões.%n",
                     tipoCartao, jogador.getKey(), jogador.getValue());
         } catch (NoSuchElementException e) {
             System.err.println("Nenhum cartão encontrado do tipo " + tipoCartao + ".");
@@ -76,7 +76,7 @@ public class Main {
         return dataHelper.getCartoes()
                 .stream()
                 .filter(cartao -> cartao.cartao.equalsIgnoreCase(tipoCartao))
-                .collect(Collectors.groupingBy(cartao -> cartao.num_camisa, Collectors.counting()))
+                .collect(Collectors.groupingBy(cartao -> cartao.atleta, Collectors.counting()))
                 .entrySet()
                 .stream()
                 .max(Map.Entry.comparingByValue())

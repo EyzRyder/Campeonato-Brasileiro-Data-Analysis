@@ -1,6 +1,6 @@
 public class Cartao {
-    public String partida_ID;
-    public String rodada;
+    public Integer partida_ID;
+    public Integer rodada;
     public String clube;
     public String cartao;
     public String atleta ;
@@ -8,7 +8,7 @@ public class Cartao {
     public String posicao;
     public String minuto;
 
-    public Cartao(String partida_ID, String rodada, String clube, String cartao, String atleta, String num_camisa, String posicao, String minuto) {
+    public Cartao(Integer partida_ID, Integer rodada, String clube, String cartao, String atleta, String num_camisa, String posicao, String minuto) {
         this.partida_ID = partida_ID;
         this.rodada = rodada;
         this.clube = clube;

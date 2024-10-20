@@ -84,9 +84,13 @@ public class DataHelper {
 
     private List<Cartao> parseCartoes(Path file) throws IOException {
         try (Stream<String> lines = Files.lines(file)) {
-            return lines.map(line -> {
-                        String[] row = line.replaceAll("\"", "").split(",");
-                        return new Cartao(row[0], row[1], row[2], row[3], row[4], row[5], row[6], row[7]);
+            return lines
+                    .map(line->line.replaceAll("\"", "").split(","))
+                    .filter(row->isInteger(row[0]))
+                    .map(row -> {
+                        Integer partida_Id = Integer.parseInt(row[0]);
+                        Integer rodada = Integer.parseInt(row[1]);
+                        return new Cartao(partida_Id, rodada, row[2], row[3], row[4], row[5], row[6], row[7]);
                     })
                     .collect(Collectors.toList());
         }
@@ -100,6 +104,15 @@ public class DataHelper {
                                 row[7], row[8], row[9], row[10], row[11], row[12]);
                     })
                     .collect(Collectors.toList());
+        }
+    }
+
+    private static boolean isInteger(String s) {
+        try {
+            Integer.parseInt(s);
+            return true;
+        } catch (NumberFormatException e) {
+            return false;
         }
     }
 
