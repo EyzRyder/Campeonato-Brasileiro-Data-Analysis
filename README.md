@@ -4,14 +4,14 @@ Este projeto em Java realiza a análise de dados de jogos do Campeonato Brasilei
 ## Objetivo
 O objetivo deste projeto é extrair e apresentar informações relevantes sobre o Campeonato Brasileiro, incluindo:
 
-- [ ] O time que mais venceu jogos no ano de 2008;
-- [ ] O estado com o menor número de jogos entre 2003 e 2022;
-- [ ] O jogador que mais fez gols;
-- [ ] O jogador que mais fez gols de pênaltis;
-- [ ] O jogador que mais fez gols contra;
+- [x] O time que mais venceu jogos no ano de 2008;
+- [x] O estado com o menor número de jogos entre 2003 e 2022;
+- [x] O jogador que mais fez gols;
+- [x] O jogador que mais fez gols de pênaltis;
+- [x] O jogador que mais fez gols contra;
 - [x] O jogador que mais recebeu cartões amarelos;
 - [x] O jogador que mais recebeu cartões vermelhos;
-- [ ] O placar da partida com o maior número de gols;
+- [x] O placar da partida com o maior número de gols;
 
 
 ## Dados
