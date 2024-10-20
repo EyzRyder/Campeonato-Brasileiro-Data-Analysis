@@ -33,7 +33,7 @@ public class Brasileirao {
         this.rodada = rodada;
         this.data = LocalDate.parse(data, DateTimeFormatter.ofPattern("d/M/yyyy"));
         this.horario = LocalTime.parse(horario, DateTimeFormatter.ofPattern("H:mm"));
-        this.dia = "Segunda";
+        this.dia = this.data.getDayOfWeek().toString();
         this.mandante = mandante;
         this.visitante = visitante;
         this.formacao_mandante = formacao_mandante;
