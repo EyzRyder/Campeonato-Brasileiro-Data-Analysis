@@ -1,19 +1,22 @@
 public class Estatistica {
-    public String partida_ID;
-    public String rodadu;
+    public Integer partida_ID;
+    public Integer rodadu;
     public String Clube;
-    public String chutes;
-    public String chutesAGol;
-    public String posseDeBola ;
-    public String passes ;
-    public String precisao_passes ;
-    public String faltas ;
-    public String cartao_amarelo ;
-    public String cartao_vermelho ;
-    public String impedimentos ;
-    public String escanteios ;
+    public Integer chutes;
+    public Integer chutesAGol;
+    public String posseDeBola;
+    public Integer passes;
+    public String precisao_passes;
+    public Integer faltas;
+    public Integer cartao_amarelo;
+    public Integer cartao_vermelho;
+    public Integer impedimentos;
+    public Integer escanteios;
 
-    public Estatistica(String partida_ID, String rodadu, String clube, String chutes, String chutesAGol, String posseDeBola, String passes, String precisao_passes, String faltas, String cartao_amarelo, String cartao_vermelho, String impedimentos, String escanteios) {
+    public Estatistica(
+            Integer partida_ID, Integer rodadu, String clube, Integer chutes, Integer chutesAGol,
+            String posseDeBola, Integer passes, String precisao_passes, Integer faltas,
+            Integer cartao_amarelo, Integer cartao_vermelho, Integer impedimentos, Integer escanteios) {
         this.partida_ID = partida_ID;
         this.rodadu = rodadu;
         Clube = clube;

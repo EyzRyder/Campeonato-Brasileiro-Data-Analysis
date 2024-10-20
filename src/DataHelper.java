@@ -61,11 +61,13 @@ public class DataHelper {
 
     private List<Gol> parseGols(Path file) throws IOException {
         try (Stream<String> lines = Files.lines(file)) {
-            return lines.map(line -> {
-                        String[] row = line.replaceAll("\"", "").split(",");
+            return lines
+                    .map(line->line.replaceAll("\"", "").split(","))
+                    .filter(row->isInteger(row[0]))
+                    .map(row -> {
                         return row.length == 6
-                                ? new Gol(row[0], row[1], row[2], row[3], row[4], row[5])
-                                : new Gol(row[0], row[1], row[2], row[3], row[4]);
+                                ? new Gol(Integer.parseInt(row[0]), row[1], row[2], row[3], row[4], row[5])
+                                : new Gol(Integer.parseInt(row[0]), row[1], row[2], row[3], row[4]);
                     })
                     .collect(Collectors.toList());
         }
@@ -98,10 +100,22 @@ public class DataHelper {
 
     private List<Estatistica> parseEstatisticas(Path file) throws IOException {
         try (Stream<String> lines = Files.lines(file)) {
-            return lines.map(line -> {
-                        String[] row = line.replaceAll("\"", "").split(",");
-                        return new Estatistica(row[0], row[1], row[2], row[3], row[4], row[5], row[6],
-                                row[7], row[8], row[9], row[10], row[11], row[12]);
+            return lines
+                    .map(line->line.replaceAll("\"", "").split(","))
+                    .filter(row->isInteger(row[0]))
+                    .map(row -> {
+                        Integer partida_Id = Integer.parseInt(row[0]);
+                        Integer rodadu = Integer.parseInt(row[1]);
+                        Integer chutes = Integer.parseInt(row[3]);
+                        Integer chutesAGol = Integer.parseInt(row[4]);
+                        Integer passes = Integer.parseInt(row[6]);
+                        Integer faltas =Integer.parseInt(row[8]);
+                        Integer cartao_amarelo =Integer.parseInt(row[9]);
+                        Integer cartao_vermelho =Integer.parseInt(row[10]);
+                        Integer impedimentos =Integer.parseInt(row[11]);
+                        Integer escanteios = Integer.parseInt(row[12]);
+                        return new Estatistica(partida_Id, rodadu, row[2], chutes, chutesAGol, row[5], passes,
+                                row[7], faltas, cartao_amarelo, cartao_vermelho, impedimentos, escanteios);
                     })
                     .collect(Collectors.toList());
         }

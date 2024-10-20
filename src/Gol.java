@@ -1,5 +1,5 @@
 public class Gol {
-    public String partida_ID;
+    public Integer partida_ID;
     public String rodada;
     public String clube;
     public String atleta;
@@ -18,16 +18,12 @@ public class Gol {
                 '}';
     }
 
-    public Gol(String partida_ID, String rodada, String clube, String atleta, String minuto, String tipo_de_gol) {
-        this.partida_ID = partida_ID;
-        this.rodada = rodada;
-        this.clube = clube;
-        this.atleta = atleta;
-        this.minuto = minuto;
+    public Gol(Integer partida_ID, String rodada, String clube, String atleta, String minuto, String tipo_de_gol) {
+        this(partida_ID, rodada, clube, atleta, minuto);
         this.tipo_de_gol = tipo_de_gol;
     }
 
-    public Gol(String partida_ID, String rodada, String clube, String atleta, String minuto) {
+    public Gol(Integer partida_ID, String rodada, String clube, String atleta, String minuto) {
         this.partida_ID = partida_ID;
         this.rodada = rodada;
         this.clube = clube;
