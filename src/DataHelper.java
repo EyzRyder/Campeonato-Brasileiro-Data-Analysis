@@ -73,11 +73,11 @@ public class DataHelper {
 
     private List<Brasileirao> parseBrasileirao(Path file) throws IOException {
         try (Stream<String> lines = Files.lines(file)) {
-            return lines.map(line -> {
-                        String[] row = line.replaceAll("\"", "").split(",");
-                        return new Brasileirao(row[0], row[1], row[2], row[3], row[4], row[5], row[6],
-                                row[7], row[8], row[9], row[10], row[11], row[12], row[13], row[14], row[15]);
-                    })
+            return lines
+                    .map(line->line.replaceAll("\"", "").split(","))
+                    .filter(row->isInteger(row[0]))
+                    .map(row -> new Brasileirao(Integer.parseInt(row[0]), Integer.parseInt(row[1]), row[2], row[3], row[4], row[5], row[6],
+                            row[7], row[8], row[9], row[10], row[11], Integer.parseInt(row[12]), Integer.parseInt(row[13]), row[14], row[15]))
                     .collect(Collectors.toList());
         }
     }

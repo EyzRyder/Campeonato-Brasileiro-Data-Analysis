@@ -125,7 +125,7 @@ public class Main {
     private static void exibirTimeComMaisVitorias2008(DataHelper dataHelper) {
         Map<String, Long> vitoriasPorTime = dataHelper.getBrasileiraoes()
                 .stream()
-                .filter(jogo -> jogo.data != null && jogo.data.matches("\\d{2}/\\d{2}/2008"))
+                .filter(jogo -> jogo.data.getYear() == 2008)
                 .filter(jogo -> jogo.vencedor != null && !jogo.vencedor.equals("-"))
                 .collect(Collectors.groupingBy(jogo -> jogo.vencedor, Collectors.counting()));
 
@@ -146,11 +146,13 @@ public class Main {
     private static void exibirEstadoComMenorJogos(DataHelper dataHelper) {
         Map<String, Long> jogosPorEstado = dataHelper.getBrasileiraoes()
                 .stream()
-                .filter(jogo -> jogo.data != null && jogo.data.matches("\\d{2}/\\d{2}/(200[3-9]|201\\d|202[0-2])"))
+                .filter(jogo -> jogo.data.getYear() > 2002 && jogo.data.getYear() < 2023)
                 .flatMap(jogo -> {
                     List<String> estados = new ArrayList<>();
-                    if (jogo.estadoMandante != null) estados.add(jogo.estadoMandante);
-                    if (jogo.estadoVisitante != null) estados.add(jogo.estadoVisitante);
+                    if (jogo.estadoMandante != null)
+                        estados.add(jogo.estadoMandante);
+                    if (jogo.estadoVisitante != null)
+                        estados.add(jogo.estadoVisitante);
                     return estados.stream();
                 })
                 .collect(Collectors.groupingBy(estado -> estado, Collectors.counting()));
@@ -194,16 +196,9 @@ public class Main {
                 .stream()
                 .filter(jogo -> jogo.mandantePlacar != null && jogo.visitantePlacar != null)
                 .map(jogo -> {
-                    try {
-                        int golsMandante = Integer.parseInt(jogo.mandantePlacar);
-                        int golsVisitante = Integer.parseInt(jogo.visitantePlacar);
-                        int totalGols = golsMandante + golsVisitante;
-                        return new AbstractMap.SimpleEntry<>(jogo, totalGols);
-                    } catch (NumberFormatException e) {
-                        return null;
-                    }
+                    int totalGols = jogo.mandantePlacar + jogo.visitantePlacar;
+                    return new AbstractMap.SimpleEntry<>(jogo, totalGols);
                 })
-                .filter(Objects::nonNull)
                 .max(Comparator.comparingLong(Map.Entry::getValue));
 
         if (partidaComMaisGols.isEmpty()) {
@@ -212,8 +207,8 @@ public class Main {
         }
 
         AbstractMap.SimpleEntry<Brasileirao, Integer> partida = partidaComMaisGols.get();
-        int golsMandante = Integer.parseInt(partida.getKey().mandantePlacar);
-        int golsVisitante = Integer.parseInt(partida.getKey().visitantePlacar);
+        int golsMandante = partida.getKey().mandantePlacar;
+        int golsVisitante = partida.getKey().visitantePlacar;
         System.out.printf("A partida com o maior número de gols foi: %s (%d x %d).%n",
                 partida.getKey().arena, golsMandante, golsVisitante);
     }
