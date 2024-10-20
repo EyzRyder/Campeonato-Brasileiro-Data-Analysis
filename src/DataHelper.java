@@ -64,11 +64,9 @@ public class DataHelper {
             return lines
                     .map(line->line.replaceAll("\"", "").split(","))
                     .filter(row->isInteger(row[0]))
-                    .map(row -> {
-                        return row.length == 6
-                                ? new Gol(Integer.parseInt(row[0]), row[1], row[2], row[3], row[4], row[5])
-                                : new Gol(Integer.parseInt(row[0]), row[1], row[2], row[3], row[4]);
-                    })
+                    .map(row -> row.length == 6
+                            ? new Gol(Integer.parseInt(row[0]), row[1], row[2], row[3], row[4], row[5])
+                            : new Gol(Integer.parseInt(row[0]), row[1], row[2], row[3], row[4]))
                     .collect(Collectors.toList());
         }
     }
