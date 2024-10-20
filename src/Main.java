@@ -5,10 +5,8 @@ public class Main {
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
         int escolha = -1;
-        String menuPrompt = "";
         DataHelper dataHelper = new DataHelper();
-
-        menuPrompt += """
+        String menuPrompt = """
                 ╔═══════════════════════════════════════════════════════════════╗
                 ║                       MENU PRINCIPAL                          ║
                 ╠═══════════════════════════════════════════════════════════════╣
@@ -26,13 +24,13 @@ public class Main {
                 ║                  Selecione a tarefa desejada...               ║
                 ╚═══════════════════════════════════════════════════════════════╝
                 """;
-            do {
-                System.out.println(menuPrompt);
-                escolha = getInt(scanner);
-                processarEscolha(escolha, dataHelper);
-            } while (escolha != 0);
+        do {
+            System.out.println(menuPrompt);
+            escolha = getInt(scanner);
+            processarEscolha(escolha, dataHelper);
+        } while (escolha != 0);
 
-            scanner.close();
+        scanner.close();
 
     }
 
@@ -42,8 +40,7 @@ public class Main {
                 System.out.print(">> Input: ");
                 return Integer.parseInt(scanner.nextLine());
             } catch (NumberFormatException e) {
-                System.err.println("Input inválido! Por favor, digite um número inteiro.");
-                System.out.println("Aperte enter para continuar.");
+                System.err.println("Entrada inválida! Por favor, digite um número inteiro.\nAperte Enter pra continuar.");
                 scanner.nextLine();
             }
         }
@@ -53,6 +50,7 @@ public class Main {
         switch (escolha) {
             case 1 -> exibirTimeComMaisVitorias2008(dataHelper);
             case 2 -> exibirEstadoComMenorJogos(dataHelper);
+            case 3 -> exibirJogadorComMaisGols(dataHelper);
             case 4 -> exibirJogadorComMaisGolsPenalti(dataHelper);
             case 5 -> exibirJogadoresMaisGolsContra(dataHelper);
             case 6 -> exibirJogadorComMaisCartoes(dataHelper, "Amarelo");
@@ -219,6 +217,5 @@ public class Main {
         System.out.printf("A partida com o maior número de gols foi: %s (%d x %d).%n",
                 partida.getKey().arena, golsMandante, golsVisitante);
     }
-
 
 }
