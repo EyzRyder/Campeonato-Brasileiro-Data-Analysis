@@ -45,8 +45,13 @@ javac src/*.java
 Execute a análise:
 
 ```bash
-java src/Campeonato-Brasileiro-Data-Analysis
+java src/Main.java
 ```
 
 Dependências
 - Java 11 ou superior
+
+Desenvolvedores
+- [Gabriel Bessi](https://github.com/EyzRyder)
+- [Guilherme Bandeira](https://github.com/DevGuiBan)
+- [Vinícius Guedes](https://github.com/Vini-Guedesz)
