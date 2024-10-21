@@ -48,10 +48,10 @@ Execute a análise:
 java src/Main.java
 ```
 
-Dependências
+## Dependências
 - Java 11 ou superior
 
-Desenvolvedores
+## Desenvolvedores
 - [Gabriel Bessi](https://github.com/EyzRyder)
 - [Guilherme Bandeira](https://github.com/DevGuiBan)
 - [Vinícius Guedes](https://github.com/Vini-Guedesz)
