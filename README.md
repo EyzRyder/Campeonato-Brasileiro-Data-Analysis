@@ -52,6 +52,18 @@ java src/Main.java
 - Java 11 ou superior
 
 ## Desenvolvedores
-- [Gabriel Bessi](https://github.com/EyzRyder)
-- [Guilherme Bandeira](https://github.com/DevGuiBan)
-- [Vinícius Guedes](https://github.com/Vini-Guedesz)
+<a href="https://github.com/EyzRyder">
+  <img src="https://avatars.githubusercontent.com/u/85580011?v=4" alt="Gabriel Bessi" width="90" height="90"/>
+  <p>Gabriel de Morais Bessi</p>
+</a>
+
+
+<a href="https://github.com/DevGuiBan">
+  <img src="https://avatars.githubusercontent.com/u/107276182?v=4" alt="Kaua" width="90" height="90"/>
+  <p>Guilherme Bandeira</p>
+</a>
+
+<a href="https://github.com/Vini-Guedesz">
+  <img src="https://avatars.githubusercontent.com/u/123116030?v=4" alt="Kaua" width="90" height="90"/>
+  <p>Vinícius Guedes</p>
+</a>
